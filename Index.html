@@ -1,0 +1,968 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Roadmap A1 (Units 1–6) Interactive Practice Exam</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #2563eb;
+            --primary-hover: #1d4ed8;
+            --success-color: #10b981;
+            --error-color: #ef4444;
+            --bg-color: #f8fafc;
+            --card-bg: #ffffff;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --border-color: #e2e8f0;
+            --audio-bg: #eff6ff;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Inter', 'Segoe UI', Tahoma, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.6;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 850px;
+            margin: 0 auto;
+            background: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            padding: 40px;
+        }
+
+        header {
+            text-align: center;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+
+        h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        .author-note {
+            display: inline-block;
+            background-color: #eff6ff;
+            color: var(--primary-color);
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            margin-top: 12px;
+            border: 1px solid #bfdbfe;
+        }
+
+        .student-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+            background: #f1f5f9;
+            padding: 20px;
+            border-radius: 8px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            margin-bottom: 5px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            font-family: inherit;
+            font-size: 0.95rem;
+        }
+
+        .section { margin-bottom: 40px; }
+
+        .section-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--text-main);
+            margin-bottom: 15px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid var(--primary-color);
+            display: inline-block;
+        }
+
+        .reading-text {
+            background-color: #f8fafc;
+            border-left: 4px solid var(--primary-color);
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 0 8px 8px 0;
+            font-size: 1.05rem;
+            line-height: 1.7;
+        }
+
+        .audio-controls {
+            background-color: var(--audio-bg);
+            border: 1px solid #bfdbfe;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .audio-status {
+            font-size: 0.9rem;
+            color: var(--primary-color);
+            font-weight: 500;
+            display: none;
+        }
+
+        .question-block {
+            margin-bottom: 25px;
+            padding: 20px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .question-text {
+            font-weight: 600;
+            margin-bottom: 12px;
+            font-size: 1.05rem;
+        }
+
+        .blank {
+            display: inline-block;
+            min-width: 80px;
+            border-bottom: 2px solid var(--text-main);
+            margin: 0 4px;
+            text-align: center;
+            color: var(--primary-color);
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .option-label {
+            display: flex;
+            align-items: center;
+            padding: 10px 15px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.2s, border-color 0.2s;
+        }
+
+        .option-label:hover { background-color: #f8fafc; }
+
+        .option-label input {
+            margin-right: 12px;
+            accent-color: var(--primary-color);
+            transform: scale(1.1);
+        }
+
+        /* Drag and Drop Styles */
+        .rearrange-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .word-bank, .drop-zone {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            min-height: 55px;
+            padding: 12px;
+            border-radius: 8px;
+            align-items: center;
+        }
+
+        .word-bank {
+            background-color: #f1f5f9;
+            border: 1px solid var(--border-color);
+        }
+
+        .drop-zone {
+            background-color: #ffffff;
+            border: 2px dashed #94a3b8;
+            transition: background 0.2s, border-color 0.2s;
+        }
+
+        .drop-zone.drag-over {
+            background-color: #eff6ff;
+            border-color: var(--primary-color);
+        }
+
+        .draggable-word {
+            padding: 8px 16px;
+            background: var(--primary-color);
+            color: white;
+            border-radius: 6px;
+            cursor: grab;
+            font-weight: 600;
+            user-select: none;
+            transition: transform 0.2s, box-shadow 0.2s, opacity 0.2s;
+            font-size: 0.95rem;
+        }
+
+        .draggable-word:hover {
+            background: var(--primary-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .draggable-word:active, .draggable-word.dragging {
+            cursor: grabbing;
+            opacity: 0.6;
+            transform: scale(1.05);
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 10px 20px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+            text-align: center;
+        }
+
+        .btn:hover { background-color: var(--primary-hover); }
+        .btn:disabled { opacity: 0.6; cursor: not-allowed; }
+
+        .btn-audio { background-color: var(--success-color); color: white; }
+        .btn-audio:hover { background-color: #059669; }
+
+        .btn-secondary { background-color: var(--text-muted); font-size: 0.9rem; padding: 8px 16px; }
+        .btn-secondary:hover { background-color: #475569; }
+
+        .btn-check { background-color: #f59e0b; padding: 10px 15px; }
+        .btn-check:hover { background-color: #d97706; }
+
+        .btn-clear { background-color: #ef4444; padding: 8px 15px; font-size: 0.85rem; }
+        .btn-clear:hover { background-color: #dc2626; }
+
+        .listening-script {
+            display: none;
+            background-color: #fffbeb;
+            border: 1px solid #fcd34d;
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 15px;
+            font-size: 0.95rem;
+            color: #92400e;
+        }
+
+        .listening-script h4 { margin-bottom: 10px; color: #b45309; }
+        .script-item {
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px dashed #fcd34d;
+        }
+        .script-item:last-child { border-bottom: none; }
+
+        .feedback {
+            display: none;
+            margin-top: 15px;
+            padding: 12px 15px;
+            border-radius: 6px;
+            font-size: 0.95rem;
+            direction: rtl;
+            text-align: right;
+            line-height: 1.6;
+            font-family: 'Segoe UI', Tahoma, Arial, sans-serif;
+        }
+
+        .feedback.correct {
+            background-color: #d1fae5;
+            color: #065f46;
+            border: 1px solid #10b981;
+        }
+
+        .feedback.incorrect {
+            background-color: #fee2e2;
+            color: #991b1b;
+            border: 1px solid #ef4444;
+        }
+
+        .reset-area {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 2px solid var(--border-color);
+        }
+
+        @media (max-width: 600px) {
+            .container { padding: 20px; }
+            h1 { font-size: 1.5rem; }
+            .audio-controls { flex-direction: column; align-items: stretch; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>Roadmap A1 – Units 1–6 Practice Exam</h1>
+        <div class="subtitle">Interactive Self-Corrected Assessment</div>
+        <div class="author-note">Designed By: Mr. Islam Saber</div>
+    </header>
+
+    <div class="student-info">
+        <div class="form-group">
+            <label for="studentName">Student Name</label>
+            <input type="text" id="studentName" placeholder="Enter your full name">
+        </div>
+        <div class="form-group">
+            <label for="studentId">University ID</label>
+            <input type="text" id="studentId" placeholder="Enter your ID number">
+        </div>
+        <div class="form-group">
+            <label for="examDate">Date</label>
+            <input type="date" id="examDate">
+        </div>
+    </div>
+
+    <!-- PART 1: LISTENING -->
+    <div class="section">
+        <div class="section-title">Part 1: Listening (5 Marks)</div>
+        <p style="margin-bottom: 15px; color: var(--text-muted);">
+            <em>Instructions: Click "Listen to Audio", then choose the correct answer for each question. You will get immediate feedback.</em>
+        </p>
+        
+        <div class="audio-controls">
+            <button type="button" class="btn btn-audio" onclick="playListeningAudio()">🔊 Listen to Audio</button>
+            <button type="button" class="btn btn-secondary" onclick="stopAudio()">⏹️ Stop</button>
+            <button type="button" class="btn btn-secondary" onclick="toggleScript()">👁️ Show Script</button>
+            <span id="audio-status" class="audio-status"></span>
+        </div>
+
+        <div id="listening-script" class="listening-script">
+            <h4>🎧 Listening Scripts</h4>
+            <div class="script-item">
+                <strong>Conversation 1:</strong><br>
+                <em>Man:</em> Hi, I’m Marco. I’m from Italy.<br>
+                <em>Woman:</em> Nice to meet you, Marco. Are you a teacher?<br>
+                <em>Man:</em> No, I’m not. I’m a doctor in a small hospital.
+            </div>
+            <div class="script-item">
+                <strong>Conversation 2:</strong><br>
+                <em>Woman:</em> Let’s look for a new flat.<br>
+                <em>Man:</em> OK. Is there a big living room?<br>
+                <em>Woman:</em> Yes, there is. And there are two bedrooms.<br>
+                <em>Man:</em> Is there a shower in the bathroom?<br>
+                <em>Woman:</em> No, there isn’t. There’s only a bath.
+            </div>
+        </div>
+
+        <!-- Q1 -->
+        <div class="question-block" id="q1-block">
+            <div class="question-text">1. Where is Marco from?</div>
+            <div class="options">
+                <label class="option-label" onclick="checkAnswer('q1', 'B', this)"><input type="radio" name="q1" value="A"> A) Spain</label>
+                <label class="option-label" onclick="checkAnswer('q1', 'B', this)"><input type="radio" name="q1" value="B"> B) Italy</label>
+                <label class="option-label" onclick="checkAnswer('q1', 'B', this)"><input type="radio" name="q1" value="C"> C) The UK</label>
+                <label class="option-label" onclick="checkAnswer('q1', 'B', this)"><input type="radio" name="q1" value="D"> D) Turkey</label>
+            </div>
+            <div id="q1-feedback" class="feedback"></div>
+        </div>
+
+        <!-- Q2 -->
+        <div class="question-block" id="q2-block">
+            <div class="question-text">2. What is Marco’s job?</div>
+            <div class="options">
+                <label class="option-label" onclick="checkAnswer('q2', 'C', this)"><input type="radio" name="q2" value="A"> A) Teacher</label>
+                <label class="option-label" onclick="checkAnswer('q2', 'C', this)"><input type="radio" name="q2" value="B"> B) Manager</label>
+                <label class="option-label" onclick="checkAnswer('q2', 'C', this)"><input type="radio" name="q2" value="C"> C) Doctor</label>
+                <label class="option-label" onclick="checkAnswer('q2', 'C', this)"><input type="radio" name="q2" value="D"> D) Student</label>
+            </div>
+            <div id="q2-feedback" class="feedback"></div>
+        </div>
+
+        <!-- Q3 -->
+        <div class="question-block" id="q3-block">
+            <div class="question-text">3. What are the speakers talking about in Conversation 2?</div>
+            <div class="options">
+                <label class="option-label" onclick="checkAnswer('q3', 'B', this)"><input type="radio" name="q3" value="A"> A) A new job</label>
+                <label class="option-label" onclick="checkAnswer('q3', 'B', this)"><input type="radio" name="q3" value="B"> B) A new flat</label>
+                <label class="option-label" onclick="checkAnswer('q3', 'B', this)"><input type="radio" name="q3" value="C"> C) A holiday</label>
+                <label class="option-label" onclick="checkAnswer('q3', 'B', this)"><input type="radio" name="q3" value="D"> D) A school</label>
+            </div>
+            <div id="q3-feedback" class="feedback"></div>
+        </div>
+
+        <!-- Q4 -->
+        <div class="question-block" id="q4-block">
+            <div class="question-text">4. How many bedrooms are there?</div>
+            <div class="options">
+                <label class="option-label" onclick="checkAnswer('q4', 'B', this)"><input type="radio" name="q4" value="A"> A) One</label>
+                <label class="option-label" onclick="checkAnswer('q4', 'B', this)"><input type="radio" name="q4" value="B"> B) Two</label>
+                <label class="option-label" onclick="checkAnswer('q4', 'B', this)"><input type="radio" name="q4" value="C"> C) Three</label>
+                <label class="option-label" onclick="checkAnswer('q4', 'B', this)"><input type="radio" name="q4" value="D"> D) Four</label>
+            </div>
+            <div id="q4-feedback" class="feedback"></div>
+        </div>
+
+        <!-- Q5 -->
+        <div class="question-block" id="q5-block">
+            <div class="question-text">5. What is in the bathroom?</div>
+            <div class="options">
+                <label class="option-label" onclick="checkAnswer('q5', 'C', this)"><input type="radio" name="q5" value="A"> A) A shower</label>
+                <label class="option-label" onclick="checkAnswer('q5', 'C', this)"><input type="radio" name="q5" value="B"> B) A toilet and a shower</label>
+                <label class="option-label" onclick="checkAnswer('q5', 'C', this)"><input type="radio" name="q5" value="C"> C) A bath</label>
+                <label class="option-label" onclick="checkAnswer('q5', 'C', this)"><input type="radio" name="q5" value="D"> D) A washing machine</label>
+            </div>
+            <div id="q5-feedback" class="feedback"></div>
+        </div>
+    </div>
+
+    <!-- PART 2: READING -->
+    <div class="section">
+        <div class="section-title">Part 2: Reading (5 Marks)</div>
+        <div class="reading-text">
+            <strong>My Weekly Routine</strong><br><br>
+            My name is Sarah. I am 25 years old and I am from Canada, but I live in London now. I am an office worker. From Monday to Friday, I get up at 7 o’clock. I usually have breakfast at 7:30. I go to work by bus because I don’t have a car. At work, I can use a computer and I can speak English and French. In the evening, I sometimes meet my friends. We often eat pizza or salad. I don’t work at the weekend. On Saturdays, I clean my flat and go shopping. On Sundays, I relax at home.
+        </div>
+
+        <!-- Q6 to Q10 -->
+        <div class="question-block" id="q6-block">
+            <div class="question-text">6. Where is Sarah from?</div>
+            <div class="options">
+                <label class="option-label" onclick="checkAnswer('q6', 'B', this)"><input type="radio" name="q6" value="A"> A) The UK</label>
+                <label class="option-label" onclick="checkAnswer('q6', 'B', this)"><input type="radio" name="q6" value="B"> B) Canada</label>
+                <label class="option-label" onclick="checkAnswer('q6', 'B', this)"><input type="radio" name="q6" value="C"> C) France</label>
+                <label class="option-label" onclick="checkAnswer('q6', 'B', this)"><input type="radio" name="q6" value="D"> D) Italy</label>
+            </div>
+            <div id="q6-feedback" class="feedback"></div>
+        </div>
+
+        <div class="question-block" id="q7-block">
+            <div class="question-text">7. What is Sarah’s job?</div>
+            <div class="options">
+                <label class="option-label" onclick="checkAnswer('q7', 'C', this)"><input type="radio" name="q7" value="A"> A) Teacher</label>
+                <label class="option-label" onclick="checkAnswer('q7', 'C', this)"><input type="radio" name="q7" value="B"> B) Doctor</label>
+                <label class="option-label" onclick="checkAnswer('q7', 'C', this)"><input type="radio" name="q7" value="C"> C) Office worker</label>
+                <label class="option-label" onclick="checkAnswer('q7', 'C', this)"><input type="radio" name="q7" value="D"> D) Bus driver</label>
+            </div>
+            <div id="q7-feedback" class="feedback"></div>
+        </div>
+
+        <div class="question-block" id="q8-block">
+            <div class="question-text">8. How does she go to work?</div>
+            <div class="options">
+                <label class="option-label" onclick="checkAnswer('q8', 'C', this)"><input type="radio" name="q8" value="A"> A) By car</label>
+                <label class="option-label" onclick="checkAnswer('q8', 'C', this)"><input type="radio" name="q8" value="B"> B) By train</label>
+                <label class="option-label" onclick="checkAnswer('q8', 'C', this)"><input type="radio" name="q8" value="C"> C) By bus</label>
+                <label class="option-label" onclick="checkAnswer('q8', 'C', this)"><input type="radio" name="q8" value="D"> D) On foot</label>
+            </div>
+            <div id="q8-feedback" class="feedback"></div>
+        </div>
+
+        <div class="question-block" id="q9-block">
+            <div class="question-text">9. What can Sarah do at work?</div>
+            <div class="options">
+                <label class="option-label" onclick="checkAnswer('q9', 'B', this)"><input type="radio" name="q9" value="A"> A) Speak three languages</label>
+                <label class="option-label" onclick="checkAnswer('q9', 'B', this)"><input type="radio" name="q9" value="B"> B) Use a computer</label>
+                <label class="option-label" onclick="checkAnswer('q9', 'B', this)"><input type="radio" name="q9" value="C"> C) Cook food</label>
+                <label class="option-label" onclick="checkAnswer('q9', 'B', this)"><input type="radio" name="q9" value="D"> D) Drive a bus</label>
+            </div>
+            <div id="q9-feedback" class="feedback"></div>
+        </div>
+
+        <div class="question-block" id="q10-block">
+            <div class="question-text">10. What does she do on Saturdays?</div>
+            <div class="options">
+                <label class="option-label" onclick="checkAnswer('q10', 'C', this)"><input type="radio" name="q10" value="A"> A) She goes to work.</label>
+                <label class="option-label" onclick="checkAnswer('q10', 'C', this)"><input type="radio" name="q10" value="B"> B) She meets her friends.</label>
+                <label class="option-label" onclick="checkAnswer('q10', 'C', this)"><input type="radio" name="q10" value="C"> C) She cleans her flat and goes shopping.</label>
+                <label class="option-label" onclick="checkAnswer('q10', 'C', this)"><input type="radio" name="q10" value="D"> D) She studies French.</label>
+            </div>
+            <div id="q10-feedback" class="feedback"></div>
+        </div>
+    </div>
+
+    <!-- PART 3: GRAMMAR -->
+    <div class="section">
+        <div class="section-title">Part 3: Grammar (5 Marks)</div>
+        
+        <div class="question-block" id="q11-block">
+            <div class="question-text">11. Hello, my name is Ahmed. I <span class="blank">_______</span> from Saudi Arabia.</div>
+            <div class="options">
+                <label class="option-label" onclick="checkAnswer('q11', 'A', this)"><input type="radio" name="q11" value="A"> A) am</label>
+                <label class="option-label" onclick="checkAnswer('q11', 'A', this)"><input type="radio" name="q11" value="B"> B) is</label>
+                <label class="option-label" onclick="checkAnswer('q11', 'A', this)"><input type="radio" name="q11" value="C"> C) are</label>
+                <label class="option-label" onclick="checkAnswer('q11', 'A', this)"><input type="radio" name="q11" value="D"> D) be</label>
+            </div>
+            <div id="q11-feedback" class="feedback"></div>
+        </div>
+
+        <div class="question-block" id="q12-block">
+            <div class="question-text">12. My sister <span class="blank">_______</span> a new phone, but she hasn't got a laptop.</div>
+            <div class="options">
+                <label class="option-label" onclick="checkAnswer('q12', 'B', this)"><input type="radio" name="q12" value="A"> A) have got</label>
+                <label class="option-label" onclick="checkAnswer('q12', 'B', this)"><input type="radio" name="q12" value="B"> B) has got</label>
+                <label class="option-label" onclick="checkAnswer('q12', 'B', this)"><input type="radio" name="q12" value="C"> C) haves got</label>
+                <label class="option-label" onclick="checkAnswer('q12', 'B', this)"><input type="radio" name="q12" value="D"> D) having got</label>
+            </div>
+            <div id="q12-feedback" class="feedback"></div>
+        </div>
+
+        <div class="question-block" id="q13-block">
+            <div class="question-text">13. My father <span class="blank">_______</span> coffee in the morning. He always drinks tea.</div>
+            <div class="options">
+                <label class="option-label" onclick="checkAnswer('q13', 'B', this)"><input type="radio" name="q13" value="A"> A) don't drink</label>
+                <label class="option-label" onclick="checkAnswer('q13', 'B', this)"><input type="radio" name="q13" value="B"> B) doesn't drink</label>
+                <label class="option-label" onclick="checkAnswer('q13', 'B', this)"><input type="radio" name="q13" value="C"> C) doesn't drinks</label>
+                <label class="option-label" onclick="checkAnswer('q13', 'B', this)"><input type="radio" name="q13" value="D"> D) don't drinks</label>
+            </div>
+            <div id="q13-feedback" class="feedback"></div>
+        </div>
+
+        <div class="question-block" id="q14-block">
+            <div class="question-text">14. <span class="blank">_______</span> your brother speak Spanish? "No, he doesn't."</div>
+            <div class="options">
+                <label class="option-label" onclick="checkAnswer('q14', 'B', this)"><input type="radio" name="q14" value="A"> A) Do</label>
+                <label class="option-label" onclick="checkAnswer('q14', 'B', this)"><input type="radio" name="q14" value="B"> B) Does</label>
+                <label class="option-label" onclick="checkAnswer('q14', 'B', this)"><input type="radio" name="q14" value="C"> C) Is</label>
+                <label class="option-label" onclick="checkAnswer('q14', 'B', this)"><input type="radio" name="q14" value="D"> D) Are</label>
+            </div>
+            <div id="q14-feedback" class="feedback"></div>
+        </div>
+
+        <div class="question-block" id="q15-block">
+            <div class="question-text">15. <span class="blank">_______</span> any supermarkets near your house?</div>
+            <div class="options">
+                <label class="option-label" onclick="checkAnswer('q15', 'B', this)"><input type="radio" name="q15" value="A"> A) Is there</label>
+                <label class="option-label" onclick="checkAnswer('q15', 'B', this)"><input type="radio" name="q15" value="B"> B) Are there</label>
+                <label class="option-label" onclick="checkAnswer('q15', 'B', this)"><input type="radio" name="q15" value="C"> C) There is</label>
+                <label class="option-label" onclick="checkAnswer('q15', 'B', this)"><input type="radio" name="q15" value="D"> D) There are</label>
+            </div>
+            <div id="q15-feedback" class="feedback"></div>
+        </div>
+    </div>
+
+    <!-- PART 4: VOCABULARY -->
+    <div class="section">
+        <div class="section-title">Part 4: Vocabulary (5 Marks)</div>
+
+        <div class="question-block" id="q16-block">
+            <div class="question-text">16. My mother’s brother is my <span class="blank">_______</span>.</div>
+            <div class="options">
+                <label class="option-label" onclick="checkAnswer('q16', 'A', this)"><input type="radio" name="q16" value="A"> A) uncle</label>
+                <label class="option-label" onclick="checkAnswer('q16', 'A', this)"><input type="radio" name="q16" value="B"> B) aunt</label>
+                <label class="option-label" onclick="checkAnswer('q16', 'A', this)"><input type="radio" name="q16" value="C"> C) cousin</label>
+                <label class="option-label" onclick="checkAnswer('q16', 'A', this)"><input type="radio" name="q16" value="D"> D) grandfather</label>
+            </div>
+            <div id="q16-feedback" class="feedback"></div>
+        </div>
+
+        <div class="question-block" id="q17-block">
+            <div class="question-text">17. I want to buy some food. Let’s go to the <span class="blank">_______</span>.</div>
+            <div class="options">
+                <label class="option-label" onclick="checkAnswer('q17', 'B', this)"><input type="radio" name="q17" value="A"> A) bank</label>
+                <label class="option-label" onclick="checkAnswer('q17', 'B', this)"><input type="radio" name="q17" value="B"> B) supermarket</label>
+                <label class="option-label" onclick="checkAnswer('q17', 'B', this)"><input type="radio" name="q17" value="C"> C) cinema</label>
+                <label class="option-label" onclick="checkAnswer('q17', 'B', this)"><input type="radio" name="q17" value="D"> D) park</label>
+            </div>
+            <div id="q17-feedback" class="feedback"></div>
+        </div>
+
+        <div class="question-block" id="q18-block">
+            <div class="question-text">18. He has got short, <span class="blank">_______</span> hair and blue eyes.</div>
+            <div class="options">
+                <label class="option-label" onclick="checkAnswer('q18', 'B', this)"><input type="radio" name="q18" value="A"> A) tall</label>
+                <label class="option-label" onclick="checkAnswer('q18', 'B', this)"><input type="radio" name="q18" value="B"> B) blonde</label>
+                <label class="option-label" onclick="checkAnswer('q18', 'B', this)"><input type="radio" name="q18" value="C"> C) old</label>
+                <label class="option-label" onclick="checkAnswer('q18', 'B', this)"><input type="radio" name="q18" value="D"> D) expensive</label>
+            </div>
+            <div id="q18-feedback" class="feedback"></div>
+        </div>
+
+        <div class="question-block" id="q19-block">
+            <div class="question-text">19. I don’t have a car. I always <span class="blank">_______</span> to work. It takes 20 minutes.</div>
+            <div class="options">
+                <label class="option-label" onclick="checkAnswer('q19', 'C', this)"><input type="radio" name="q19" value="A"> A) drive</label>
+                <label class="option-label" onclick="checkAnswer('q19', 'C', this)"><input type="radio" name="q19" value="B"> B) take a taxi</label>
+                <label class="option-label" onclick="checkAnswer('q19', 'C', this)"><input type="radio" name="q19" value="C"> C) walk</label>
+                <label class="option-label" onclick="checkAnswer('q19', 'C', this)"><input type="radio" name="q19" value="D"> D) fly</label>
+            </div>
+            <div id="q19-feedback" class="feedback"></div>
+        </div>
+
+        <div class="question-block" id="q20-block">
+            <div class="question-text">20. It’s your turn to <span class="blank">_______</span> the dishes after dinner.</div>
+            <div class="options">
+                <label class="option-label" onclick="checkAnswer('q20', 'C', this)"><input type="radio" name="q20" value="A"> A) make</label>
+                <label class="option-label" onclick="checkAnswer('q20', 'C', this)"><input type="radio" name="q20" value="B"> B) do</label>
+                <label class="option-label" onclick="checkAnswer('q20', 'C', this)"><input type="radio" name="q20" value="C"> C) wash</label>
+                <label class="option-label" onclick="checkAnswer('q20', 'C', this)"><input type="radio" name="q20" value="D"> D) go</label>
+            </div>
+            <div id="q20-feedback" class="feedback"></div>
+        </div>
+    </div>
+
+    <!-- PART 5: REARRANGE SENTENCES (DRAG & DROP) -->
+    <div class="section">
+        <div class="section-title">Part 5: Rearrange Sentences (5 Marks)</div>
+        <p style="margin-bottom: 15px; color: var(--text-muted); font-size: 0.9rem;">
+            <em>Instructions: Drag and drop the words into the box below to form a correct sentence. (You can also click a word to move it). Punctuation is not required.</em>
+        </p>
+
+        <div class="question-block" id="r1-block">
+            <div class="question-text">21. Rearrange the words to make a correct sentence:</div>
+            <div class="rearrange-container">
+                <div class="word-bank" id="r1-bank"></div>
+                <div class="drop-zone" id="r1-zone"></div>
+                <div style="display: flex; gap: 10px; margin-top: 10px;">
+                    <button type="button" class="btn btn-check" onclick="checkRearrange('r1')">Check Answer</button>
+                    <button type="button" class="btn btn-clear" onclick="clearRearrange('r1')">Clear</button>
+                </div>
+            </div>
+            <div id="r1-feedback" class="feedback"></div>
+        </div>
+
+        <div class="question-block" id="r2-block">
+            <div class="question-text">22. Rearrange the words to make a correct sentence:</div>
+            <div class="rearrange-container">
+                <div class="word-bank" id="r2-bank"></div>
+                <div class="drop-zone" id="r2-zone"></div>
+                <div style="display: flex; gap: 10px; margin-top: 10px;">
+                    <button type="button" class="btn btn-check" onclick="checkRearrange('r2')">Check Answer</button>
+                    <button type="button" class="btn btn-clear" onclick="clearRearrange('r2')">Clear</button>
+                </div>
+            </div>
+            <div id="r2-feedback" class="feedback"></div>
+        </div>
+
+        <div class="question-block" id="r3-block">
+            <div class="question-text">23. Rearrange the words to make a correct sentence:</div>
+            <div class="rearrange-container">
+                <div class="word-bank" id="r3-bank"></div>
+                <div class="drop-zone" id="r3-zone"></div>
+                <div style="display: flex; gap: 10px; margin-top: 10px;">
+                    <button type="button" class="btn btn-check" onclick="checkRearrange('r3')">Check Answer</button>
+                    <button type="button" class="btn btn-clear" onclick="clearRearrange('r3')">Clear</button>
+                </div>
+            </div>
+            <div id="r3-feedback" class="feedback"></div>
+        </div>
+
+        <div class="question-block" id="r4-block">
+            <div class="question-text">24. Rearrange the words to make a correct sentence:</div>
+            <div class="rearrange-container">
+                <div class="word-bank" id="r4-bank"></div>
+                <div class="drop-zone" id="r4-zone"></div>
+                <div style="display: flex; gap: 10px; margin-top: 10px;">
+                    <button type="button" class="btn btn-check" onclick="checkRearrange('r4')">Check Answer</button>
+                    <button type="button" class="btn btn-clear" onclick="clearRearrange('r4')">Clear</button>
+                </div>
+            </div>
+            <div id="r4-feedback" class="feedback"></div>
+        </div>
+
+        <div class="question-block" id="r5-block">
+            <div class="question-text">25. Rearrange the words to make a correct sentence:</div>
+            <div class="rearrange-container">
+                <div class="word-bank" id="r5-bank"></div>
+                <div class="drop-zone" id="r5-zone"></div>
+                <div style="display: flex; gap: 10px; margin-top: 10px;">
+                    <button type="button" class="btn btn-check" onclick="checkRearrange('r5')">Check Answer</button>
+                    <button type="button" class="btn btn-clear" onclick="clearRearrange('r5')">Clear</button>
+                </div>
+            </div>
+            <div id="r5-feedback" class="feedback"></div>
+        </div>
+    </div>
+
+    <div class="reset-area">
+        <button type="button" class="btn" onclick="location.reload()">🔄 Reset Entire Exam</button>
+    </div>
+</div>
+
+<script>
+    // --- Feedback Data (Arabic Explanations) ---
+    const feedbackData = {
+        q1: { correct: "إجابة صحيحة! النص يذكر أن ماركو من إيطاليا (I'm from Italy).", incorrect: "إجابة خاطئة. الإجابة الصحيحة هي B) Italy. النص يذكر: I'm from Italy." },
+        q2: { correct: "إجابة صحيحة! ماركو يقول: I'm a doctor.", incorrect: "إجابة خاطئة. الإجابة الصحيحة هي C) Doctor. النص يذكر: I'm a doctor." },
+        q3: { correct: "إجابة صحيحة! المحادثة تدور حول البحث عن شقة جديدة (new flat).", incorrect: "إجابة خاطئة. الإجابة الصحيحة هي B) A new flat. الجملة الأولى: Let's look for a new flat." },
+        q4: { correct: "إجابة صحيحة! النص يذكر وجود غرفتي نوم (two bedrooms).", incorrect: "إجابة خاطئة. الإجابة الصحيحة هي B) Two. النص يذكر: there are two bedrooms." },
+        q5: { correct: "إجابة صحيحة! المرأة تقول إنه لا يوجد دش، بل يوجد حوض استحمام فقط (a bath).", incorrect: "إجابة خاطئة. الإجابة الصحيحة هي C) A bath. النص يذكر: There's only a bath." },
+        q6: { correct: "إجابة صحيحة! سارة تقول في بداية النص: I am from Canada.", incorrect: "إجابة خاطئة. الإجابة الصحيحة هي B) Canada. النص يذكر: I am from Canada." },
+        q7: { correct: "إجابة صحيحة! سارة تذكر أنها تعمل كموظفة مكتب (office worker).", incorrect: "إجابة خاطئة. الإجابة الصحيحة هي C) Office worker. النص يذكر: I am an office worker." },
+        q8: { correct: "إجابة صحيحة! سارة تذهب للعمل بالحافلة (by bus).", incorrect: "إجابة خاطئة. الإجابة الصحيحة هي C) By bus. النص يذكر: I go to work by bus." },
+        q9: { correct: "إجابة صحيحة! سارة تستطيع استخدام الكمبيوتر (use a computer).", incorrect: "إجابة خاطئة. الإجابة الصحيحة هي B) Use a computer. النص يذكر: I can use a computer." },
+        q10: { correct: "إجابة صحيحة! في عطلة نهاية الأسبوع (السبت) تنظف شقتها وتذهب للتسوق.", incorrect: "إجابة خاطئة. الإجابة الصحيحة هي C) She cleans her flat and goes shopping. النص يذكر: On Saturdays, I clean my flat and go shopping." },
+        q11: { correct: "إجابة صحيحة! نستخدم الفعل am مع الضمير I في زمن المضارع البسيط.", incorrect: "إجابة خاطئة. الإجابة الصحيحة هي A) am. نستخدم am فقط مع الضمير I." },
+        q12: { correct: "إجابة صحيحة! نستخدم has got مع الضمائر he/she/it أو المفرد الغائب (My sister).", incorrect: "إجابة خاطئة. الإجابة الصحيحة هي B) has got. نستخدم has got مع المفرد الغائب (My sister/she)." },
+        q13: { correct: "إجابة صحيحة! في النفي مع الغائب المفرد (My father) نستخدم doesn't + الفعل الأصلي بدون s.", incorrect: "إجابة خاطئة. الإجابة الصحيحة هي B) doesn't drink. القاعدة: doesn't + فعل مجرد." },
+        q14: { correct: "إجابة صحيحة! لتكوين سؤال مع الغائب المفرد (your brother) نبدأ بـ Does.", incorrect: "إجابة خاطئة. الإجابة الصحيحة هي B) Does. نستخدم Does في أسئلة المضارع البسيط مع he/she/it." },
+        q15: { correct: "إجابة صحيحة! نستخدم Are there مع الأسماء الجمع (supermarkets).", incorrect: "إجابة خاطئة. الإجابة الصحيحة هي B) Are there. نستخدم Are there للسؤال عن وجود شيء جمع." },
+        q16: { correct: "إجابة صحيحة! أخو الأم أو الأب يُسمى uncle في الإنجليزية.", incorrect: "إجابة خاطئة. الإجابة الصحيحة هي A) uncle. أخو الأم/الأب = uncle." },
+        q17: { correct: "إجابة صحيحة! المكان المخصص لشراء الطعام هو السوبر ماركت (supermarket).", incorrect: "إجابة خاطئة. الإجابة الصحيحة هي B) supermarket. نشتري الطعام من السوبر ماركت." },
+        q18: { correct: "إجابة صحيحة! كلمة blonde تعني أشقر وتستخدم كصفة لوصف لون الشعر.", incorrect: "إجابة خاطئة. الإجابة الصحيحة هي B) blonde. blonde صفة تعني أشقر وتصف الشعر." },
+        q19: { correct: "إجابة صحيحة! بما أنه لا يملك سيارة، فالمشي (walk) هو الخيار المنطقي.", incorrect: "إجابة خاطئة. الإجابة الصحيحة هي C) walk. الجملة تنفي امتلاك سيارة، فالمشي هو الأنسب." },
+        q20: { correct: "إجابة صحيحة! التعبير الصحيح لغسل الأطباق في الإنجليزية هو wash the dishes.", incorrect: "إجابة خاطئة. الإجابة الصحيحة هي C) wash. التعبير الثابت هو wash the dishes." }
+    };
+
+    const rearrangeData = {
+        r1: { words: ['am', 'I', 'from', 'Italy'], correct: 'I am from Italy', feedbackCorrect: "ممتاز! الترتيب الصحيح هو: I am from Italy. (نبدأ بالضمير I ثم الفعل am).", feedbackIncorrect: "الترتيب الصحيح هو: I am from Italy. (نبدأ بالضمير I ثم الفعل am ثم from ثم البلد)." },
+        r2: { words: ['a', 'Is', 'there', 'supermarket', 'near', 'here'], correct: 'Is there a supermarket near here', feedbackCorrect: "ممتاز! الترتيب الصحيح هو: Is there a supermarket near here? (نبدأ بـ Is there للسؤال عن وجود شيء مفرد).", feedbackIncorrect: "الترتيب الصحيح هو: Is there a supermarket near here? (للسؤال عن وجود شيء مفرد نستخدم Is there + a + اسم مفرد)." },
+        r3: { words: ['to', 'work', 'by', 'I', 'bus', 'go'], correct: 'I go to work by bus', feedbackCorrect: "ممتاز! الترتيب الصحيح هو: I go to work by bus. (نستخدم by + وسيلة النقل).", feedbackIncorrect: "الترتيب الصحيح هو: I go to work by bus. (التعبير عن وسيلة النقل يكون بـ by + وسيلة النقل)." },
+        r4: { words: ['does', 'What', 'do', 'he', 'around', 'the', 'house', 'jobs'], correct: 'What jobs does he do around the house', feedbackCorrect: "ممتاز! الترتيب الصحيح هو: What jobs does he do around the house? (سؤال بـ What jobs مع الغائب المفرد نستخدم does).", feedbackIncorrect: "الترتيب الصحيح هو: What jobs does he do around the house? (سؤال المعلومات مع الغائب المفرد: What + jobs + does + he + do...)." },
+        r5: { words: ['got', 'Have', 'you', 'a', 'passport'], correct: 'Have you got a passport', feedbackCorrect: "ممتاز! الترتيب الصحيح هو: Have you got a passport? (للسؤال عن الملكية مع you نستخدم Have you got).", feedbackIncorrect: "التريب الصحيح هو: Have you got a passport? (للسؤال عن الملكية مع الضمير you نبدأ بـ Have you got...)." }
+    };
+
+    // --- MCQ Check Function ---
+    function checkAnswer(qName, correctValue, element) {
+        const block = document.getElementById(qName + '-block');
+        const feedbackDiv = document.getElementById(qName + '-feedback');
+        const selectedValue = element.querySelector('input').value;
+        
+        const allLabels = block.querySelectorAll('.option-label');
+        allLabels.forEach(label => {
+            label.style.pointerEvents = 'none';
+            const input = label.querySelector('input');
+            if (input.value === correctValue) {
+                label.style.backgroundColor = '#d1fae5';
+                label.style.borderColor = '#10b981';
+                label.style.color = '#065f46';
+                label.style.fontWeight = '600';
+            }
+        });
+
+        if (selectedValue === correctValue) {
+            element.style.backgroundColor = '#d1fae5';
+            element.style.borderColor = '#10b981';
+            feedbackDiv.className = 'feedback correct';
+            feedbackDiv.innerHTML = '✅ ' + feedbackData[qName].correct;
+        } else {
+            element.style.backgroundColor = '#fee2e2';
+            element.style.borderColor = '#ef4444';
+            element.style.color = '#991b1b';
+            feedbackDiv.className = 'feedback incorrect';
+            feedbackDiv.innerHTML = '❌ ' + feedbackData[qName].incorrect;
+        }
+        feedbackDiv.style.display = 'block';
+    }
+
+    // --- Drag and Drop Logic for Rearrange ---
+    function initRearrange() {
+        Object.keys(rearrangeData).forEach(qId => {
+            const q = rearrangeData[qId];
+            const bank = document.getElementById(`${qId}-bank`);
+            const zone = document.getElementById(`${qId}-zone`);
+
+            // Shuffle words
+            const shuffled = [...q.words].sort(() => Math.random() - 0.5);
+
+            shuffled.forEach(word => {
+                const span = document.createElement('span');
+                span.textContent = word;
+                span.className = 'draggable-word';
+                span.draggable = true;
+                bank.appendChild(span);
+            });
+
+            // Setup Drag Events for words
+            bank.querySelectorAll('.draggable-word').forEach(wordEl => {
+                wordEl.addEventListener('dragstart', (e) => {
+                    e.dataTransfer.setData('text/plain', null); // Firefox fix
+                    wordEl.classList.add('dragging');
+                });
+                wordEl.addEventListener('dragend', () => {
+                    wordEl.classList.remove('dragging');
+                });
+            });
+
+            // Setup Drop Zones
+            [bank, zone].forEach(container => {
+                container.addEventListener('dragover', (e) => {
+                    e.preventDefault();
+                    container.classList.add('drag-over');
+                    const dragging = document.querySelector('.dragging');
+                    if (!dragging) return;
+
+                    const afterElement = getDragAfterElement(container, e.clientX);
+                    if (afterElement == null) {
+                        container.appendChild(dragging);
+                    } else {
+                        container.insertBefore(dragging, afterElement);
+                    }
+                });
+
+                container.addEventListener('dragleave', () => {
+                    container.classList.remove('drag-over');
+                });
+
+                container.addEventListener('drop', (e) => {
+                    e.preventDefault();
+                    container.classList.remove('drag-over');
+                });
+
+                // Click to move (Fallback & Mobile friendly)
+                container.addEventListener('click', (e) => {
+                    if (e.target.classList.contains('draggable-word')) {
+                        if (container === bank) {
+                            zone.appendChild(e.target);
+                        } else {
+                            bank.appendChild(e.target);
+                        }
+                    }
+                });
+            });
+        });
+    }
+
+    function getDragAfterElement(container, x) {
+        const draggableElements = [...container.querySelectorAll('.draggable-word:not(.dragging)')];
+        return draggableElements.reduce((closest, child) => {
+            const box = child.getBoundingClientRect();
+            const offset = x - box.left - box.width / 2;
+            if (offset < 0 && offset > closest.offset) {
+                return { offset: offset, element: child };
+            } else {
+                return closest;
+            }
+        }, { offset: Number.NEGATIVE_INFINITY }).element;
+    }
+
+    function checkRearrange(qId) {
+        const zone = document.getElementById(`${qId}-zone`);
+        const feedbackDiv = document.getElementById(`${qId}-feedback`);
+        const q = rearrangeData[qId];
+        
+        const wordsInZone = Array.from(zone.querySelectorAll('.draggable-word')).map(el => el.textContent);
+        const userAnswer = wordsInZone.join(' ').trim().toLowerCase().replace(/[.,?!]/g, '');
+        const correctAnswer = q.correct.toLowerCase().replace(/[.,?!]/g, '');
+
+        // Disable buttons
+        const block = document.getElementById(`${qId}-block`);
+        block.querySelectorAll('button').forEach(btn => btn.disabled = true);
+        zone.querySelectorAll('.draggable-word').forEach(el => el.draggable = false);
+
+        if (userAnswer === correctAnswer) {
+            zone.style.borderColor = '#10b981';
+            zone.style.backgroundColor = '#f0fdf4';
+            feedbackDiv.className = 'feedback correct';
+            feedbackDiv.innerHTML = '✅ ' + q.feedbackCorrect;
+        } else {
+            zone.style.borderColor = '#ef4444';
+            zone.style.backgroundColor = '#fef2f2';
+            feedbackDiv.className = 'feedback incorrect';
+            feedbackDiv.innerHTML = '❌ ' + q.feedbackIncorrect;
+        }
+        feedbackDiv.style.display = 'block';
+    }
+
+    function clearRearrange(qId) {
+        const bank = document.getElementById(`${qId}-bank`);
+        const zone = document.getElementById(`${qId}-zone`);
+        const feedbackDiv = document.getElementById(`${qId}-feedback`);
+        const block = document.getElementById(`${qId}-block`);
+
+        // Move all words back to bank
+        zone.querySelectorAll('.draggable-word').forEach(el => {
+            el.draggable = true;
+            bank.appendChild(el);
+        });
+
+        // Re-enable buttons
+        block.querySelectorAll('button').forEach(btn => btn.disabled = false);
+        
+        // Reset styles
+        zone.style.borderColor = '';
+        zone.style.backgroundColor = '';
+        feedbackDiv.style.display = 'none';
+    }
+
+    // --- Audio Functions ---
+    let currentUtterance = null;
+
+    function playListeningAudio() {
+        if ('speechSynthesis' in window) {
+            window.speechSynthesis.cancel();
+            const statusEl = document.getElementById('audio-status');
+            statusEl.style.display = 'inline';
+            statusEl.textContent = "🔊 Playing audio... Please listen carefully.";
+
+            const fullScript = "Listening Part One. Conversation One. Man: Hi, I’m Marco. I’m from Italy. Woman: Nice to meet you, Marco. Are you a teacher? Man: No, I’m not. I’m a doctor in a small hospital. [Pause]. Conversation Two. Woman: Let’s look for a new flat. Man: OK. Is there a big living room? Woman: Yes, there is. And there are two bedrooms. Man: Is there a shower in the bathroom? Woman: No, there isn’t. There’s only a bath. End of listening part.";
+
+            currentUtterance = new SpeechSynthesisUtterance(fullScript);
+            currentUtterance.rate = 0.85;
+            currentUtterance.pitch = 1;
+
+            const voices = window.speechSynthesis.getVoices();
+            const englishVoice = voices.find(voice => voice.lang.includes('en-US') || voice.lang.includes('en-GB'));
+            if (englishVoice) currentUtterance.voice = englishVoice;
+
+            currentUtterance.onend = function() {
+                statusEl.textContent = "✅ Audio finished.";
+                setTimeout(() => { statusEl.style.display = 'none'; }, 3000);
+            };
+            window.speechSynthesis.speak(currentUtterance);
+        } else {
+            alert("Sorry, your browser does not support the text-to-speech audio feature.");
+        }
+    }
+
+    function stopAudio() {
+        if ('speechSynthesis' in window) {
+            window.speechSynthesis.cancel();
+            const statusEl = document.getElementById('audio-status');
+            statusEl.textContent = "⏹️ Audio stopped.";
+            setTimeout(() => { statusEl.style.display = 'none'; }, 2000);
+        }
+    }
+
+    function toggleScript() {
+        const scriptDiv = document.getElementById('listening-script');
+        scriptDiv.style.display = (scriptDiv.style.display === 'none' || scriptDiv.style.display === '') ? 'block' : 'none';
+    }
+
+    if ('speechSynthesis' in window) {
+        window.speechSynthesis.onvoiceschanged = function() {
+            window.speechSynthesis.getVoices();
+        };
+    }
+
+    // Initialize on load
+    document.addEventListener('DOMContentLoaded', () => {
+        initRearrange();
+        document.getElementById('examDate').valueAsDate = new Date();
+    });
+</script>
+
+</body>
+</html>
